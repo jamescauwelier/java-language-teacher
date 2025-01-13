@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+#### JQWik ###
+
+.jqwik-database
+
 ### STS ###
 .apt_generated
 .classpath

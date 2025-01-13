@@ -1,11 +1,11 @@
-package dev.accelerated.language.teacher;
+package dev.accelerated.language.teacher.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LanguageTeacherApplication {
+public class LanguageTeacherRestApi {
     public static void main(String... args) {
-        SpringApplication.run(LanguageTeacherApplication.class, args);
+        SpringApplication.run(LanguageTeacherRestApi.class, args);
     }
 }
