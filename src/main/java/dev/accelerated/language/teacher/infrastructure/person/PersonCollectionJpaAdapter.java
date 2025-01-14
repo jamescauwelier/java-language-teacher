@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Component
@@ -18,7 +19,9 @@ public class PersonCollectionJpaAdapter implements PersonCollectionPort {
     }
 
     @Override
-    public Optional<Person> get(String personId) {
-        return repository.findById(personId.toString());
+    public Optional<Person> get(UUID personId) {
+        return repository.findById(personId);
     }
+
+
 }

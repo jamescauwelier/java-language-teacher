@@ -1,17 +1,17 @@
-package dev.accelerated.language.teacher.domain.id;
+package dev.accelerated.language.teacher.domain.uuid;
 
 import java.util.LinkedList;
 import java.util.UUID;
 
-public class HardcodedIdGeneratorAdapter implements IdGeneratorPort {
+public class HardcodedUUIDGeneratorAdapter implements UUIDGeneratorPort {
     private final LinkedList<UUID> ids = new LinkedList<>();
 
     @Override
-    public Id generate() {
-        return new Id(ids.removeFirst());
+    public UUID generate() {
+        return ids.removeFirst();
     }
 
-    public HardcodedIdGeneratorAdapter() {
+    public HardcodedUUIDGeneratorAdapter() {
         ids.add(UUID.fromString("01946191-8adb-7997-85d9-6d9279bd0d89"));
         ids.add(UUID.fromString("1946191-8adb-73f1-9b21-662e38ccc151"));
         ids.add(UUID.fromString("1946191-8adb-7c8c-bbae-837727dd8cee"));

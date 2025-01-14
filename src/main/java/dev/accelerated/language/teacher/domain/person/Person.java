@@ -1,22 +1,28 @@
 package dev.accelerated.language.teacher.domain.person;
 
+import dev.accelerated.language.teacher.domain.uuid.InvalidUuidException;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Entity
 public class Person {
     @jakarta.persistence.Id
-    private String id;
+    private UUID id;
     private String firstName;
     private String lastName;
 
     protected Person() {
     }
 
-    public Person(String id, String firstName, String lastName) {
+    public Person(UUID id, String firstName, String lastName) {
+        if (id.version() != 7) {
+            throw new InvalidUuidException(id.toString());
+        }
+
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
