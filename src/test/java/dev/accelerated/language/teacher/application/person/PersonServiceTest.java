@@ -2,6 +2,7 @@ package dev.accelerated.language.teacher.application.person;
 
 import dev.accelerated.language.teacher.TestConfig;
 import dev.accelerated.language.teacher.application.person.commands.CreatePersonCommand;
+import dev.accelerated.language.teacher.application.person.queries.FindAllPersons;
 import dev.accelerated.language.teacher.application.person.queries.FindPersonById;
 import dev.accelerated.language.teacher.domain.person.Person;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,21 @@ public class PersonServiceTest {
         FindPersonById query = new FindPersonById(newPerson.getId());
         Person foundPerson = personService.findById(query).get();
         assertEquals(newPerson, foundPerson);
+    }
+
+    @Test
+    void allPersonsCanBeFound() {
+        for (int i = 1; i <= 10; i++) {
+            personService.createPerson(new CreatePersonCommand("John " + i, "Wick " + i));
+        }
+
+        var query = new FindAllPersons(1, 6);
+        var persons = personService.findAll(query);
+        assertEquals(10, persons.getTotalElements());
+        assertEquals(2, persons.getTotalPages());
+        assertEquals(4, persons.getNumberOfElements());
+        var person = persons.getContent().get(0);
+        assertEquals("John 7", person.getFirstName());
     }
 
     @Test
