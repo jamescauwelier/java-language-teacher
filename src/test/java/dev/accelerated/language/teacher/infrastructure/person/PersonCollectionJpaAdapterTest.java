@@ -49,4 +49,26 @@ public class PersonCollectionJpaAdapterTest {
         assertEquals(firstName, person.getFirstName());
         assertEquals(lastName, person.getLastName());
     }
+
+    @Test
+    void anEmptyPageOfPersonsCanBeFound() {
+        var page = collection.findAll(0, 10);
+        assertEquals(0, page.getTotalElements());
+    }
+
+    @Test
+    void aNonEmptyPageOfPersonsCanBeFound() {
+        for (int i = 1; i <= 10; i++) {
+            collection.add(new Person(uuid.generate(), "John " + i, "Wick " + i));
+        }
+        var page = collection.findAll(0, 2);
+        assertEquals(10, page.getTotalElements());
+        assertEquals(5, page.getTotalPages());
+        assertEquals(2, page.getNumberOfElements());
+
+        page = collection.findAll(1, 2);
+        var person = page.stream().findFirst().get();
+        assertEquals("John 3", person.getFirstName());
+        assertEquals("Wick 3", person.getLastName());
+    }
 }
