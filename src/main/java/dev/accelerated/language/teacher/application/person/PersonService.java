@@ -5,6 +5,7 @@ import dev.accelerated.language.teacher.application.person.queries.FindPersonByI
 import dev.accelerated.language.teacher.domain.id.IdGeneratorPort;
 import dev.accelerated.language.teacher.domain.person.Person;
 import dev.accelerated.language.teacher.domain.person.PersonCollectionPort;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +17,23 @@ public class PersonService {
     private final IdGeneratorPort idGenerator;
     private final PersonCollectionPort persons;
 
+    @Transactional
     public Person createPerson(CreatePersonCommand command) {
-        Person createdPerson = new Person(idGenerator.generate(), command.firstName(), command.lastName());
+        Person createdPerson = new Person(idGenerator.generate().toString(), command.firstName(), command.lastName());
         return persons.add(createdPerson);
     }
 
     public Optional<Person> findById(FindPersonById query) {
-        return persons.findById(query.personId());
+        return persons.get(query.personId());
+    }
+
+    @Transactional
+    public void rename(String personId, String firstName, String lastName) {
+        persons
+                .get(personId)
+                .map((p) -> {
+                    p.rename(firstName, lastName);
+                    return p;
+                });
     }
 }

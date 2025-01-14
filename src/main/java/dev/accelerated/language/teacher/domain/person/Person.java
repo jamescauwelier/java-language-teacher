@@ -1,17 +1,22 @@
 package dev.accelerated.language.teacher.domain.person;
 
-import dev.accelerated.language.teacher.domain.id.Id;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 
 import java.util.Objects;
 
 @Getter
+@Entity
 public class Person {
-    private final Id id;
-    private final String firstName;
-    private final String lastName;
+    @jakarta.persistence.Id
+    private String id;
+    private String firstName;
+    private String lastName;
 
-    public Person(Id id, String firstName, String lastName) {
+    protected Person() {
+    }
+
+    public Person(String id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,5 +33,10 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
+    }
+
+    public void rename(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }

@@ -1,6 +1,5 @@
 package dev.accelerated.language.teacher.infrastructure.person;
 
-import dev.accelerated.language.teacher.domain.id.Id;
 import dev.accelerated.language.teacher.domain.person.Person;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,7 @@ class PersonRecord {
         );
     }
 
-    Person toPerson() {
-        return new Person(Id.fromString(personId), firstName, lastName);
-    }
+//    Person toPerson() {
+//        return new Person(Id.fromString(personId), firstName, lastName);
+//    }
 }

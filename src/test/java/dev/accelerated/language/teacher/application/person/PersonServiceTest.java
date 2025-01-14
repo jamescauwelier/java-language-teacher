@@ -33,8 +33,23 @@ public class PersonServiceTest {
         CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
         Person newPerson = personService.createPerson(command);
 
+
         FindPersonById query = new FindPersonById(newPerson.getId());
         Person foundPerson = personService.findById(query).get();
         assertEquals(newPerson, foundPerson);
+    }
+
+    @Test
+    void aCreatedPersonCanBeRenamed() {
+        // this test is only made to verify @Transactional feature properties
+        CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
+        Person newPerson = personService.createPerson(command);
+
+        personService.rename(newPerson.getId(), "Joske", "Vermeulen");
+
+        FindPersonById query = new FindPersonById(newPerson.getId());
+        Person foundPerson = personService.findById(query).get();
+
+        assertEquals("Joske", foundPerson.getFirstName());
     }
 }
