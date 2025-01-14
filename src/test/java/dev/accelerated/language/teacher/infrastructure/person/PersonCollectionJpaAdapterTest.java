@@ -2,6 +2,7 @@ package dev.accelerated.language.teacher.infrastructure.person;
 
 import dev.accelerated.language.teacher.domain.person.Person;
 import dev.accelerated.language.teacher.domain.uuid.UUIDGeneratorPort;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,7 @@ public class PersonCollectionJpaAdapterTest {
     PersonCollectionJpaAdapter collection;
 
     @Test
+    @Transactional
     void aPersonCanBeAddedToACollection() {
         UUID id = uuid.generate();
         String firstName = "John";
@@ -32,12 +34,14 @@ public class PersonCollectionJpaAdapterTest {
     }
 
     @Test
+    @Transactional
     void aNonExistingPersonCannotBeFound() {
         UUID id = uuid.generate();
         assertEquals(Optional.empty(), collection.get(id));
     }
 
     @Test
+    @Transactional
     void aPersonCanBeFoundAfterAdding() {
         UUID id = uuid.generate();
         String firstName = "John";
@@ -51,12 +55,14 @@ public class PersonCollectionJpaAdapterTest {
     }
 
     @Test
+    @Transactional
     void anEmptyPageOfPersonsCanBeFound() {
         var page = collection.findAll(0, 10);
         assertEquals(0, page.getTotalElements());
     }
 
     @Test
+    @Transactional
     void aNonEmptyPageOfPersonsCanBeFound() {
         for (int i = 1; i <= 10; i++) {
             collection.add(new Person(uuid.generate(), "John " + i, "Wick " + i));

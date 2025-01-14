@@ -5,6 +5,7 @@ import dev.accelerated.language.teacher.application.person.commands.CreatePerson
 import dev.accelerated.language.teacher.application.person.queries.FindAllPersons;
 import dev.accelerated.language.teacher.application.person.queries.FindPersonById;
 import dev.accelerated.language.teacher.domain.person.Person;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,7 @@ public class PersonServiceTest {
     }
 
     @Test
+    @Transactional
     void aPersonCanBeCreated() {
         CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
         Person newPerson = personService.createPerson(command);
@@ -30,6 +32,7 @@ public class PersonServiceTest {
     }
 
     @Test
+    @Transactional
     void aCreatedPersonCanBeFound() {
         CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
         Person newPerson = personService.createPerson(command);
@@ -41,6 +44,7 @@ public class PersonServiceTest {
     }
 
     @Test
+    @Transactional
     void allPersonsCanBeFound() {
         for (int i = 1; i <= 10; i++) {
             personService.createPerson(new CreatePersonCommand("John " + i, "Wick " + i));
@@ -56,6 +60,7 @@ public class PersonServiceTest {
     }
 
     @Test
+    @Transactional
     void aCreatedPersonCanBeRenamed() {
         // this test is only made to verify @Transactional feature properties
         CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
