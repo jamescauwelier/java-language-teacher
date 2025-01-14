@@ -1,11 +1,9 @@
 package dev.accelerated.language.teacher.domain.id;
 
-import net.jqwik.api.Example;
-import net.jqwik.api.Group;
+import org.junit.jupiter.api.Test;
 
-@Group
 public class RandomIdGeneratorAdapterTest {
-    @Example
+    @Test
     void aRandomIdCanBeGenerated() {
         IdGeneratorPort generator = new RandomIdGeneratorAdapter();
         Id id = generator.generate();

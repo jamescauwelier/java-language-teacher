@@ -1,21 +1,19 @@
 package dev.accelerated.language.teacher.domain.id;
 
-import net.jqwik.api.Example;
-import net.jqwik.api.Group;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Group
 public class HardcodedIdGeneratorAdapterTest {
-    @Example
+    @Test
     void aHardcodedIdCanBeGeneratedOnce() {
         IdGeneratorPort generator = new HardcodedIdGeneratorAdapter();
         assertEquals(new Id(UUID.fromString("01946191-8adb-7997-85d9-6d9279bd0d89")), generator.generate());
     }
 
-    @Example
+    @Test
     void aHardcodedIdCanBeGeneratedTwice() {
         IdGeneratorPort generator = new HardcodedIdGeneratorAdapter();
         assertEquals(new Id(UUID.fromString("01946191-8adb-7997-85d9-6d9279bd0d89")), generator.generate());

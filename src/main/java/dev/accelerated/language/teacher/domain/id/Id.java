@@ -8,10 +8,22 @@ public class Id {
 
     public Id(UUID uuid) {
         if (uuid.version() != 7) {
-            throw new InvalidIdException(uuid);
+            throw new InvalidIdException(uuid.toString());
         }
 
         this.uuid = uuid;
+    }
+
+    public static Id fromString(String id) {
+        try {
+            return new Id(UUID.fromString(id));
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidIdException(id);
+        }
+    }
+
+    private void validate(UUID uuid) {
+
     }
 
     @Override
