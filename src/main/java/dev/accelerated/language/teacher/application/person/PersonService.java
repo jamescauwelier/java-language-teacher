@@ -1,6 +1,6 @@
 package dev.accelerated.language.teacher.application.person;
 
-import dev.accelerated.language.teacher.application.person.commands.CreatePersonCommand;
+import dev.accelerated.language.teacher.application.person.commands.RegisterPersonCommand;
 import dev.accelerated.language.teacher.application.person.queries.FindAllPersons;
 import dev.accelerated.language.teacher.application.person.queries.FindPersonById;
 import dev.accelerated.language.teacher.domain.person.Person;
@@ -21,7 +21,7 @@ public class PersonService {
     private final PersonCollectionPort persons;
 
     @Transactional
-    public Person createPerson(CreatePersonCommand command) {
+    public Person createPerson(RegisterPersonCommand command) {
         Person createdPerson = new Person(idGenerator.generate(), command.firstName(), command.lastName());
         return persons.add(createdPerson);
     }

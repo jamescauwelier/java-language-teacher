@@ -1,7 +1,9 @@
 package dev.accelerated.language.teacher.rest.controllers.persons;
 
 import dev.accelerated.language.teacher.application.person.PersonService;
+import dev.accelerated.language.teacher.application.person.commands.RegisterPersonCommand;
 import dev.accelerated.language.teacher.application.person.queries.FindAllPersons;
+import dev.accelerated.language.teacher.application.person.queries.FindPersonById;
 import dev.accelerated.language.teacher.domain.person.Person;
 import dev.accelerated.language.teacher.rest.errors.PageParametersOutOfRangeException;
 import org.springframework.data.domain.Page;
@@ -9,8 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 public class PersonController {
@@ -36,9 +41,25 @@ public class PersonController {
         }
 
         return personAssembler.toPagedPersonModel(result, assembler);
-//        return assembler.toCollectionModel(result.getContent());
     }
 
-//    @PostMapping("/persons")
-//    ResponseEntity<?> register(){}
+    @PostMapping("/persons")
+    public ResponseEntity<EntityModel<Person>> register(@RequestBody RegisterPersonCommand command) {
+        var person = service.createPerson(command);
+        var model = assembler.toModel(person);
+
+        return ResponseEntity
+                .created(model.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(model);
+    }
+
+    @GetMapping("/persons/{personId}")
+    public ResponseEntity<EntityModel<Person>> one(@PathVariable String personId) {
+        var person = service.findById(new FindPersonById(UUID.fromString(personId))).get();
+        var model = assembler.toModel(person);
+
+        return ResponseEntity
+                .ok()
+                .body(model);
+    }
 }

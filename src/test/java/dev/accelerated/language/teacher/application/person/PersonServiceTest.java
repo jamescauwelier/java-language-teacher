@@ -1,7 +1,7 @@
 package dev.accelerated.language.teacher.application.person;
 
 import dev.accelerated.language.teacher.TestConfig;
-import dev.accelerated.language.teacher.application.person.commands.CreatePersonCommand;
+import dev.accelerated.language.teacher.application.person.commands.RegisterPersonCommand;
 import dev.accelerated.language.teacher.application.person.queries.FindAllPersons;
 import dev.accelerated.language.teacher.application.person.queries.FindPersonById;
 import dev.accelerated.language.teacher.domain.person.Person;
@@ -26,7 +26,7 @@ public class PersonServiceTest {
     @Test
     @Transactional
     void aPersonCanBeCreated() {
-        CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
+        RegisterPersonCommand command = new RegisterPersonCommand("Sylvester", "Stallone");
         Person newPerson = personService.createPerson(command);
         assert (newPerson != null);
     }
@@ -34,7 +34,7 @@ public class PersonServiceTest {
     @Test
     @Transactional
     void aCreatedPersonCanBeFound() {
-        CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
+        RegisterPersonCommand command = new RegisterPersonCommand("Sylvester", "Stallone");
         Person newPerson = personService.createPerson(command);
 
 
@@ -47,7 +47,7 @@ public class PersonServiceTest {
     @Transactional
     void allPersonsCanBeFound() {
         for (int i = 1; i <= 10; i++) {
-            personService.createPerson(new CreatePersonCommand("John " + i, "Wick " + i));
+            personService.createPerson(new RegisterPersonCommand("John " + i, "Wick " + i));
         }
 
         var query = new FindAllPersons(1, 6);
@@ -63,7 +63,7 @@ public class PersonServiceTest {
     @Transactional
     void aCreatedPersonCanBeRenamed() {
         // this test is only made to verify @Transactional feature properties
-        CreatePersonCommand command = new CreatePersonCommand("Sylvester", "Stallone");
+        RegisterPersonCommand command = new RegisterPersonCommand("Sylvester", "Stallone");
         Person newPerson = personService.createPerson(command);
 
         personService.rename(newPerson.getId(), "Joske", "Vermeulen");

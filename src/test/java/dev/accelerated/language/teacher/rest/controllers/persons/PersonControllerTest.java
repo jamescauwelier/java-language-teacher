@@ -5,10 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -91,6 +94,50 @@ public class PersonControllerTest {
                     .perform(get("/persons?page=0&size=2"))
                     .andExpect(jsonPath("$._embedded.personList.length()").value(2));
 
+        }
+    }
+
+    @Nested
+    class RegisterPersonTest {
+
+        String jsonRequestBody = """
+                {
+                    "firstName": "Sylvie",
+                    "lastName": "Stallone"
+                }
+                """;
+        private RequestBuilder request = post("/persons")
+                .content(jsonRequestBody)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        @Test
+        void testRegistrationReturnsProperStatusCode() throws Exception {
+            mockMvc
+                    .perform(request)
+                    .andExpect(status().isCreated());
+        }
+
+        @Test
+        void testRegistrationReturnsHalJson() throws Exception {
+            mockMvc
+                    .perform(request)
+                    .andExpect(content().contentType("application/hal+json"));
+        }
+
+        @Test
+        void testRegistrationReturnsPersonDetails() throws Exception {
+            mockMvc
+                    .perform(request)
+                    .andExpect(jsonPath("$.id").exists())
+                    .andExpect(jsonPath("$.firstName").value("Sylvie"))
+                    .andExpect(jsonPath("$.lastName").value("Stallone"));
+        }
+
+        @Test
+        void testRegistrationResponseContainsSelfLink() throws Exception {
+            mockMvc
+                    .perform(request)
+                    .andExpect(jsonPath("$._links.self.href").value(matchesPattern("^https?://localhost(:[0-9]+)?/persons/[a-f0-9]+-[a-f0-9]+-[a-f0-9]+-[a-f0-9]+-[a-f0-9]+$")));
         }
     }
 }
