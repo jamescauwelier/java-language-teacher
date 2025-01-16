@@ -1,6 +1,8 @@
 package dev.accelerated.language.teacher.application.person.commands;
 
-public record RegisterPersonCommand(String firstName, String lastName) {
+import jakarta.validation.constraints.NotNull;
+
+public record RegisterPersonCommand(@NotNull String firstName, @NotNull String lastName) {
     @Override
     public String toString() {
         return String.format(

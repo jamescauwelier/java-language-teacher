@@ -6,6 +6,7 @@ import dev.accelerated.language.teacher.application.person.queries.FindAllPerson
 import dev.accelerated.language.teacher.application.person.queries.FindPersonById;
 import dev.accelerated.language.teacher.domain.person.Person;
 import dev.accelerated.language.teacher.rest.errors.PageParametersOutOfRangeException;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -44,7 +45,7 @@ public class PersonController {
     }
 
     @PostMapping("/persons")
-    public ResponseEntity<EntityModel<Person>> register(@RequestBody RegisterPersonCommand command) {
+    public ResponseEntity<EntityModel<Person>> register(@Valid @RequestBody RegisterPersonCommand command) {
         var person = service.registerPerson(command);
         var model = assembler.toModel(person);
 

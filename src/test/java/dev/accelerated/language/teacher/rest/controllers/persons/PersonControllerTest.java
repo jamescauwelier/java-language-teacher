@@ -111,28 +111,35 @@ public class PersonControllerTest {
                     "lastName": "Stallone"
                 }
                 """;
-        private RequestBuilder request = post("/persons")
-                .content(jsonRequestBody)
-                .contentType(MediaType.APPLICATION_JSON);
+
+        private RequestBuilder defaultRequest() {
+            return this.request(jsonRequestBody);
+        }
+
+        private RequestBuilder request(String body) {
+            return post("/persons")
+                    .content(body)
+                    .contentType(MediaType.APPLICATION_JSON);
+        }
 
         @Test
         void testRegistrationReturnsProperStatusCode() throws Exception {
             mockMvc
-                    .perform(request)
+                    .perform(defaultRequest())
                     .andExpect(status().isCreated());
         }
 
         @Test
         void testRegistrationReturnsHalJson() throws Exception {
             mockMvc
-                    .perform(request)
+                    .perform(defaultRequest())
                     .andExpect(content().contentType("application/hal+json"));
         }
 
         @Test
         void testRegistrationReturnsPersonDetails() throws Exception {
             mockMvc
-                    .perform(request)
+                    .perform(defaultRequest())
                     .andExpect(jsonPath("$.id").exists())
                     .andExpect(jsonPath("$.firstName").value("Sylvie"))
                     .andExpect(jsonPath("$.lastName").value("Stallone"));
@@ -141,8 +148,21 @@ public class PersonControllerTest {
         @Test
         void testRegistrationResponseContainsSelfLink() throws Exception {
             mockMvc
-                    .perform(request)
+                    .perform(defaultRequest())
                     .andExpect(jsonPath("$._links.self.href").value(matchesPattern("^https?://localhost(:[0-9]+)?/persons/[a-f0-9]+-[a-f0-9]+-[a-f0-9]+-[a-f0-9]+-[a-f0-9]+$")));
+        }
+
+        @Test
+        void testInvalidRegistrationResponseReturnsBadRequest() throws Exception {
+            mockMvc
+                    .perform(request("{}"))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.type").value("/problems/validation_error"))
+                    .andExpect(jsonPath("$.status").value(400))
+                    .andExpect(jsonPath("$.detail").value("Failed to validate requested registerPersonCommand"))
+                    .andExpect(jsonPath("$.instance").value("/persons"))
+                    .andExpect(jsonPath("$.validation_errors['registerPersonCommand.lastName']").value("must not be null"))
+                    .andExpect(jsonPath("$.validation_errors['registerPersonCommand.firstName']").value("must not be null"));
         }
     }
 }
