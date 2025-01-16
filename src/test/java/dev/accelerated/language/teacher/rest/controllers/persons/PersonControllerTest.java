@@ -1,5 +1,7 @@
 package dev.accelerated.language.teacher.rest.controllers.persons;
 
+import dev.accelerated.language.teacher.application.person.PersonService;
+import dev.accelerated.language.teacher.application.person.commands.RegisterPersonCommand;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PersonControllerTest {
     @Autowired
-    PersonController controller;
+    PersonService service;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -75,9 +78,11 @@ public class PersonControllerTest {
 
         @Test
         void testGetAllContainsContent() throws Exception {
+            service.registerPerson(new RegisterPersonCommand("John", "Travolta"));
             mockMvc
                     .perform(defaultRequestBuilder)
-                    .andExpect(jsonPath("$._embedded.personList").exists());
+                    .andExpect(jsonPath("$._embedded.personList").exists())
+                    .andExpect(jsonPath("$._embedded.personList.length()").value(greaterThan(0)));
         }
 
         @Test

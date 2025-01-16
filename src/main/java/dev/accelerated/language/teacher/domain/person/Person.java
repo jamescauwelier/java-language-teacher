@@ -45,4 +45,12 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Person { id = '%s', firstName = '%s', lastName = '%s'}",
+                id, firstName, lastName
+        );
+    }
 }

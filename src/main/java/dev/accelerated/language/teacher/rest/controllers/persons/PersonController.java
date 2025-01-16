@@ -45,7 +45,7 @@ public class PersonController {
 
     @PostMapping("/persons")
     public ResponseEntity<EntityModel<Person>> register(@RequestBody RegisterPersonCommand command) {
-        var person = service.createPerson(command);
+        var person = service.registerPerson(command);
         var model = assembler.toModel(person);
 
         return ResponseEntity

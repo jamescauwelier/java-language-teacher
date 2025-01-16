@@ -27,7 +27,7 @@ public class PersonServiceTest {
     @Transactional
     void aPersonCanBeCreated() {
         RegisterPersonCommand command = new RegisterPersonCommand("Sylvester", "Stallone");
-        Person newPerson = personService.createPerson(command);
+        Person newPerson = personService.registerPerson(command);
         assert (newPerson != null);
     }
 
@@ -35,7 +35,7 @@ public class PersonServiceTest {
     @Transactional
     void aCreatedPersonCanBeFound() {
         RegisterPersonCommand command = new RegisterPersonCommand("Sylvester", "Stallone");
-        Person newPerson = personService.createPerson(command);
+        Person newPerson = personService.registerPerson(command);
 
 
         FindPersonById query = new FindPersonById(newPerson.getId());
@@ -46,8 +46,8 @@ public class PersonServiceTest {
     @Test
     @Transactional
     void allPersonsCanBeFound() {
-        for (int i = 1; i <= 10; i++) {
-            personService.createPerson(new RegisterPersonCommand("John " + i, "Wick " + i));
+        for (var i = 1; i <= 10; i++) {
+            personService.registerPerson(new RegisterPersonCommand("John " + i, "Wick" + i));
         }
 
         var query = new FindAllPersons(1, 6);
@@ -64,7 +64,7 @@ public class PersonServiceTest {
     void aCreatedPersonCanBeRenamed() {
         // this test is only made to verify @Transactional feature properties
         RegisterPersonCommand command = new RegisterPersonCommand("Sylvester", "Stallone");
-        Person newPerson = personService.createPerson(command);
+        Person newPerson = personService.registerPerson(command);
 
         personService.rename(newPerson.getId(), "Joske", "Vermeulen");
 
