@@ -8,9 +8,17 @@ import org.springframework.context.annotation.Primary;
 
 @TestConfiguration
 public class TestConfig {
+
+    HardcodedUUIDGeneratorAdapter uuidGeneratorAdapter = new HardcodedUUIDGeneratorAdapter();
+
     @Primary
     @Bean
     public UUIDGeneratorPort idGeneratorPort() {
-        return new HardcodedUUIDGeneratorAdapter();
+        return uuidGeneratorAdapter;
+    }
+
+    @Bean
+    public HardcodedUUIDGeneratorAdapter uuidGeneratorAdapter() {
+        return this.uuidGeneratorAdapter;
     }
 }

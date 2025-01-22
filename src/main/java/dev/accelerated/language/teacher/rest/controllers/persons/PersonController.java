@@ -35,6 +35,7 @@ public class PersonController {
 
     @GetMapping("/persons")
     public CollectionModel<EntityModel<Person>> all(@PageableDefault(page = 0, size = 10) Pageable page) {
+
         var query = new FindAllPersons(page.getPageNumber(), page.getPageSize());
         Page<Person> result = service.findAll(query);
         if (result.getTotalPages() < page.getPageNumber() && page.getPageNumber() != 0) {

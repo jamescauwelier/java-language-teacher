@@ -1,5 +1,6 @@
 package dev.accelerated.language.teacher.domain.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.accelerated.language.teacher.domain.conversation.Conversation;
 import dev.accelerated.language.teacher.domain.uuid.InvalidUuidException;
 import jakarta.persistence.Entity;
@@ -32,14 +33,17 @@ public class Person {
         this.lastName = lastName;
     }
 
+    @JsonProperty("id")
     public UUID id() {
         return id;
     }
 
+    @JsonProperty("firstName")
     public String firstName() {
         return firstName;
     }
 
+    @JsonProperty("lastName")
     public String lastName() {
         return lastName;
     }

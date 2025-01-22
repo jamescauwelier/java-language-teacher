@@ -21,6 +21,14 @@ public class Participant {
         this.displayName = displayName;
     }
 
+    public UUID personId() {
+        return personId;
+    }
+
+    public String displayName() {
+        return displayName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

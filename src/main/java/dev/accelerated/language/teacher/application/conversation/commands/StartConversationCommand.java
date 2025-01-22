@@ -1,11 +1,11 @@
 package dev.accelerated.language.teacher.application.conversation.commands;
 
-import dev.accelerated.language.teacher.domain.person.Person;
+import java.util.UUID;
 
 /**
- * @param controller Person that controls the conversation
+ * @param controllerId UUID  Identifies the person that controls the conversation
  */
 public record StartConversationCommand(
-        Person controller
+        UUID controllerId
 ) {
 }

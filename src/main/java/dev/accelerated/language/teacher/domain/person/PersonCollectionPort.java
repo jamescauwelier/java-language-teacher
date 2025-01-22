@@ -10,5 +10,10 @@ public interface PersonCollectionPort {
 
     Optional<Person> get(UUID personId);
 
+    default Person getRequired(UUID personId) throws PersonNotFoundException {
+        return get(personId)
+                .orElseThrow(() -> new PersonNotFoundException(personId));
+    }
+
     Page<Person> findAll(int page, int size);
 }
