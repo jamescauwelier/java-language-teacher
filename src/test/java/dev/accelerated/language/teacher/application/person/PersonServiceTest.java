@@ -38,7 +38,7 @@ public class PersonServiceTest {
         Person newPerson = personService.registerPerson(command);
 
 
-        FindPersonById query = new FindPersonById(newPerson.getId());
+        FindPersonById query = new FindPersonById(newPerson.id());
         Person foundPerson = personService.findById(query).get();
         assertEquals(newPerson, foundPerson);
     }
@@ -56,7 +56,7 @@ public class PersonServiceTest {
         assertEquals(2, persons.getTotalPages());
         assertEquals(4, persons.getNumberOfElements());
         var person = persons.getContent().get(0);
-        assertEquals("John 7", person.getFirstName());
+        assertEquals("John 7", person.firstName());
     }
 
     @Test
@@ -66,11 +66,11 @@ public class PersonServiceTest {
         RegisterPersonCommand command = new RegisterPersonCommand("Sylvester", "Stallone");
         Person newPerson = personService.registerPerson(command);
 
-        personService.rename(newPerson.getId(), "Joske", "Vermeulen");
+        personService.rename(newPerson.id(), "Joske", "Vermeulen");
 
-        FindPersonById query = new FindPersonById(newPerson.getId());
+        FindPersonById query = new FindPersonById(newPerson.id());
         Person foundPerson = personService.findById(query).get();
 
-        assertEquals("Joske", foundPerson.getFirstName());
+        assertEquals("Joske", foundPerson.firstName());
     }
 }

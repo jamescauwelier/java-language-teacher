@@ -28,9 +28,9 @@ public class PersonCollectionJpaAdapterTest {
         String lastName = "Bon Jovi";
         var person = collection.add(new Person(id, firstName, lastName));
 
-        assertEquals(id, person.getId());
-        assertEquals(firstName, person.getFirstName());
-        assertEquals(lastName, person.getLastName());
+        assertEquals(id, person.id());
+        assertEquals(firstName, person.firstName());
+        assertEquals(lastName, person.lastName());
     }
 
     @Test
@@ -49,9 +49,9 @@ public class PersonCollectionJpaAdapterTest {
         collection.add(new Person(id, firstName, lastName));
         var person = collection.get(id).get();
 
-        assertEquals(id, person.getId());
-        assertEquals(firstName, person.getFirstName());
-        assertEquals(lastName, person.getLastName());
+        assertEquals(id, person.id());
+        assertEquals(firstName, person.firstName());
+        assertEquals(lastName, person.lastName());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class PersonCollectionJpaAdapterTest {
 
         page = collection.findAll(1, 2);
         var person = page.stream().findFirst().get();
-        assertEquals("John 3", person.getFirstName());
-        assertEquals("Wick 3", person.getLastName());
+        assertEquals("John 3", person.firstName());
+        assertEquals("Wick 3", person.lastName());
     }
 }

@@ -1,13 +1,12 @@
 package dev.accelerated.language.teacher.domain.person;
 
+import dev.accelerated.language.teacher.domain.conversation.Conversation;
 import dev.accelerated.language.teacher.domain.uuid.InvalidUuidException;
 import jakarta.persistence.Entity;
-import lombok.Getter;
 
 import java.util.Objects;
 import java.util.UUID;
 
-@Getter
 @Entity
 public class Person {
     @jakarta.persistence.Id
@@ -15,6 +14,11 @@ public class Person {
     private String firstName;
     private String lastName;
 
+    /**
+     * Note: this constructor is needed for JPA access. Preferably, this
+     * would not exist as an empty `Person` makes no sense and should
+     * not exist.
+     */
     protected Person() {
     }
 
@@ -26,6 +30,22 @@ public class Person {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public UUID id() {
+        return id;
+    }
+
+    public String firstName() {
+        return firstName;
+    }
+
+    public String lastName() {
+        return lastName;
+    }
+
+    public String displayName() {
+        return String.format("%s %s", firstName, lastName);
     }
 
     @Override
@@ -51,6 +71,13 @@ public class Person {
         return String.format(
                 "Person { id = '%s', firstName = '%s', lastName = '%s'}",
                 id, firstName, lastName
+        );
+    }
+
+    public Conversation startsConversation(UUID conversationId) {
+        return new Conversation(
+                conversationId,
+                this
         );
     }
 }

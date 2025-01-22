@@ -1,14 +1,12 @@
-package dev.accelerated.language.teacher.domain.id;
+package dev.accelerated.language.teacher.domain.uuid;
 
-import dev.accelerated.language.teacher.domain.uuid.HardcodedUUIDGeneratorAdapter;
-import dev.accelerated.language.teacher.domain.uuid.UUIDGeneratorPort;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HardcodedIdGeneratorAdapterTest {
+public class HardcodedUuidGeneratorAdapterTest {
     @Test
     void aHardcodedIdCanBeGeneratedOnce() {
         UUIDGeneratorPort generator = new HardcodedUUIDGeneratorAdapter();
