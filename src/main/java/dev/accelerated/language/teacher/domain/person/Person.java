@@ -1,27 +1,15 @@
 package dev.accelerated.language.teacher.domain.person;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.accelerated.language.teacher.domain.conversation.Conversation;
 import dev.accelerated.language.teacher.domain.uuid.InvalidUuidException;
-import jakarta.persistence.Entity;
 
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
 public class Person {
-    @jakarta.persistence.Id
     private UUID id;
     private String firstName;
     private String lastName;
-
-    /**
-     * Note: this constructor is needed for JPA access. Preferably, this
-     * would not exist as an empty `Person` makes no sense and should
-     * not exist.
-     */
-    protected Person() {
-    }
 
     public Person(UUID id, String firstName, String lastName) {
         if (id.version() != 7) {
@@ -33,17 +21,14 @@ public class Person {
         this.lastName = lastName;
     }
 
-    @JsonProperty("id")
     public UUID id() {
         return id;
     }
 
-    @JsonProperty("firstName")
     public String firstName() {
         return firstName;
     }
 
-    @JsonProperty("lastName")
     public String lastName() {
         return lastName;
     }

@@ -15,12 +15,6 @@ public class PersonTest {
 
     @Nested
     class APerson {
-        // this is an unfortunate requirement of JPA and using entities directly instead of hiding
-        // them behind a collection implementation
-        @Test
-        void canBeEmpty() {
-            var person = new Person();
-        }
 
         Person defaultPerson = new Person(
                 uuid.generate(),

@@ -26,7 +26,7 @@ public class PersonCollectionJpaAdapterTest {
         UUID id = uuid.generate();
         String firstName = "John";
         String lastName = "Bon Jovi";
-        var person = collection.add(new Person(id, firstName, lastName));
+        var person = collection.persist(new Person(id, firstName, lastName));
 
         assertEquals(id, person.id());
         assertEquals(firstName, person.firstName());
@@ -46,7 +46,7 @@ public class PersonCollectionJpaAdapterTest {
         UUID id = uuid.generate();
         String firstName = "John";
         String lastName = "Bon Jovi";
-        collection.add(new Person(id, firstName, lastName));
+        collection.persist(new Person(id, firstName, lastName));
         var person = collection.get(id).get();
 
         assertEquals(id, person.id());
@@ -65,7 +65,7 @@ public class PersonCollectionJpaAdapterTest {
     @Transactional
     void aNonEmptyPageOfPersonsCanBeFound() {
         for (int i = 1; i <= 10; i++) {
-            collection.add(new Person(uuid.generate(), "John " + i, "Wick " + i));
+            collection.persist(new Person(uuid.generate(), "John " + i, "Wick " + i));
         }
         var page = collection.findAll(0, 2);
         assertEquals(10, page.getTotalElements());

@@ -12,18 +12,18 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class PersonModelAssembler implements RepresentationModelAssembler<Person, EntityModel<Person>> {
+public class PersonResourceModelAssembler implements RepresentationModelAssembler<Person, EntityModel<PersonResource>> {
     @Override
-    public EntityModel<Person> toModel(Person entity) {
+    public EntityModel<dev.accelerated.language.teacher.rest.controllers.persons.PersonResource> toModel(Person entity) {
         return EntityModel.of(
-                entity,
+                dev.accelerated.language.teacher.rest.controllers.persons.PersonResource.fromPerson(entity),
                 linkTo(methodOn(PersonController.class).one(entity.id().toString())).withSelfRel()
         );
     }
 
     @Override
-    public CollectionModel<EntityModel<Person>> toCollectionModel(Iterable<? extends Person> entities) {
-        var modeledEntities = new LinkedList<EntityModel<Person>>();
+    public CollectionModel<EntityModel<PersonResource>> toCollectionModel(Iterable<? extends Person> entities) {
+        var modeledEntities = new LinkedList<EntityModel<dev.accelerated.language.teacher.rest.controllers.persons.PersonResource>>();
         for (var entity : entities) {
             modeledEntities.add(this.toModel(entity));
         }

@@ -13,21 +13,31 @@ import java.util.UUID;
 @AllArgsConstructor
 @Component
 public class PersonCollectionJpaAdapter implements PersonCollectionPort {
-    PersonRepository repository;
+    PersonRecordRepository repository;
+
+    private PersonRecord fromPerson(Person person) {
+        return new PersonRecord(
+                person.id(), person.firstName(), person.lastName()
+        );
+    }
 
     @Override
-    public Person add(Person person) {
-        return repository.save(person);
+    public Person persist(Person person) {
+        return repository.save(fromPerson(person)).toPerson();
     }
 
     @Override
     public Optional<Person> get(UUID personId) {
-        return repository.findById(personId);
+        return repository
+                .findById(personId)
+                .map(PersonRecord::toPerson);
     }
 
     @Override
     public Page<Person> findAll(int page, int size) {
         var pageable = PageRequest.of(page, size);
-        return repository.findAll(pageable);
+        return repository
+                .findAll(pageable)
+                .map(PersonRecord::toPerson);
     }
 }

@@ -81,8 +81,8 @@ public class PersonControllerTest {
             service.registerPerson(new RegisterPersonCommand("John", "Travolta"));
             mockMvc
                     .perform(defaultRequestBuilder)
-                    .andExpect(jsonPath("$._embedded.personList").exists())
-                    .andExpect(jsonPath("$._embedded.personList.length()").value(greaterThan(0)));
+                    .andExpect(jsonPath("$._embedded.personResourceList").exists())
+                    .andExpect(jsonPath("$._embedded.personResourceList.length()").value(greaterThan(0)));
         }
 
         @Test
@@ -97,7 +97,7 @@ public class PersonControllerTest {
         void testThatContentsIsLimitedInPageSize() throws Exception {
             mockMvc
                     .perform(get("/persons?page=0&size=2"))
-                    .andExpect(jsonPath("$._embedded.personList.length()").value(2));
+                    .andExpect(jsonPath("$._embedded.personResourceList.length()").value(2));
 
         }
     }

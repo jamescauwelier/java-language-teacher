@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface PersonCollectionPort {
-    Person add(Person person);
+    Person persist(Person person);
 
     Optional<Person> get(UUID personId);
 

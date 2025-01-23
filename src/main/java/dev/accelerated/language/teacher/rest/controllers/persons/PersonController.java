@@ -21,20 +21,20 @@ import java.util.UUID;
 @RestController
 public class PersonController {
     PersonService service;
-    PersonModelAssembler assembler;
-    PagedPersonModelAssembler personAssembler;
+    PersonResourceModelAssembler assembler;
+    PagedPersonResourceModelAssembler personAssembler;
 
     PersonController(
             PersonService personService,
-            PersonModelAssembler assembler
+            PersonResourceModelAssembler assembler
     ) {
         this.service = personService;
         this.assembler = assembler;
-        this.personAssembler = new PagedPersonModelAssembler();
+        this.personAssembler = new PagedPersonResourceModelAssembler();
     }
 
     @GetMapping("/persons")
-    public CollectionModel<EntityModel<Person>> all(@PageableDefault(page = 0, size = 10) Pageable page) {
+    public CollectionModel<EntityModel<PersonResource>> all(@PageableDefault(page = 0, size = 10) Pageable page) {
 
         var query = new FindAllPersons(page.getPageNumber(), page.getPageSize());
         Page<Person> result = service.findAll(query);
@@ -46,7 +46,7 @@ public class PersonController {
     }
 
     @PostMapping("/persons")
-    public ResponseEntity<EntityModel<Person>> register(@Valid @RequestBody RegisterPersonCommand command) {
+    public ResponseEntity<EntityModel<PersonResource>> register(@Valid @RequestBody RegisterPersonCommand command) {
         var person = service.registerPerson(command);
         var model = assembler.toModel(person);
 
@@ -56,7 +56,7 @@ public class PersonController {
     }
 
     @GetMapping("/persons/{personId}")
-    public ResponseEntity<EntityModel<Person>> one(@PathVariable String personId) {
+    public ResponseEntity<EntityModel<PersonResource>> one(@PathVariable String personId) {
         var person = service.findById(new FindPersonById(UUID.fromString(personId))).get();
         var model = assembler.toModel(person);
 

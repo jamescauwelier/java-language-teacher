@@ -17,11 +17,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-public class PagedPersonModelAssembler extends PagedResourcesAssembler<Person> {
+public class PagedPersonResourceModelAssembler extends PagedResourcesAssembler<Person> {
 
     private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
-    public PagedPersonModelAssembler() {
+    public PagedPersonResourceModelAssembler() {
         super(
                 new HateoasPageableHandlerMethodArgumentResolver(),
                 UriComponentsBuilder.newInstance().build()
