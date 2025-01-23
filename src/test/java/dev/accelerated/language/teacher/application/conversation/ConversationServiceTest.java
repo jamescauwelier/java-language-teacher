@@ -30,7 +30,7 @@ public class ConversationServiceTest {
                 new RegisterPersonCommand("John", "Wayne")
         );
         Conversation conversation = conversationService.startConversation(
-                new StartConversationCommand(person.id())
+                new StartConversationCommand(person.id().toString())
         );
 
         @Test

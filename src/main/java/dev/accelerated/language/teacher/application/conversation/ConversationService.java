@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 
 @AllArgsConstructor
 @Component
@@ -19,7 +21,8 @@ public class ConversationService {
 
     @Transactional
     public Conversation startConversation(StartConversationCommand command) {
-        var controller = persons.getRequired(command.controllerId());
+        UUID controllerId = UUID.fromString(command.controllerId());
+        var controller = persons.getRequired(controllerId);
 
         var conversation = new Conversation(
                 uuidGenerator.generate(),
