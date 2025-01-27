@@ -1,13 +1,12 @@
 package dev.accelerated.language.teacher.domain.person;
 
-import dev.accelerated.language.teacher.domain.conversation.Conversation;
 import dev.accelerated.language.teacher.domain.uuid.HardcodedUUIDGeneratorAdapter;
 import dev.accelerated.language.teacher.domain.uuid.UUIDGeneratorPort;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PersonTest {
 
@@ -45,7 +44,7 @@ public class PersonTest {
         @Test
         void canStartAConversation() {
             var conversation = defaultPerson.startsConversation(uuid.generate());
-            assertTrue(conversation instanceof Conversation);
+            assertNotNull(conversation);
         }
     }
 }
